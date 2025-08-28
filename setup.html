@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Password Manager Setup</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .setup-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .step {
+      margin-bottom: 30px;
+    }
+
+    .step h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .step p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .code-block {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 6px;
+      padding: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      margin: 15px 0;
+      overflow-x: auto;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: #667eea;
+      color: white;
+    }
+
+    .btn:hover {
+      background: #5a6fd8;
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+    }
+
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+
+    .status {
+      padding: 15px;
+      border-radius: 6px;
+      margin: 20px 0;
+      display: none;
+    }
+
+    .status.success {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+
+    .status.info {
+      background: #d1ecf1;
+      border: 1px solid #bee5eb;
+      color: #0c5460;
+    }
+
+    .prerequisites {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .prerequisites h3 {
+      color: #856404;
+      margin-bottom: 10px;
+    }
+
+    .prerequisites ul {
+      color: #856404;
+      margin-left: 20px;
+    }
+
+    .prerequisites li {
+      margin-bottom: 5px;
+    }
+
+    .footer {
+      background: #f8f9fa;
+      padding: 20px 40px;
+      text-align: center;
+      border-top: 1px solid #e9ecef;
+    }
+
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="setup-container">
+    <div class="header">
+      <h1>🔐 Local Password Manager</h1>
+      <p>Connect your local password manager to Firefox</p>
+    </div>
+
+    <div class="content">
+      <div class="prerequisites">
+        <h3>📋 Prerequisites</h3>
+        <ul>
+          <li>Local Password Manager CLI installed and accessible</li>
+          <li>Python 3 installed (for the bridge server)</li>
+          <li>Bridge server running (instructions below)</li>
+        </ul>
+      </div>
+
+      <div class="step">
+        <h2>Step 1: Install Local Password Manager</h2>
+        <p>First, make sure you have the local password manager CLI installed. Clone and build the repository:</p>
+        <div class="code-block">
+git clone https://github.com/Lucasldab/local-password-manager.git
+cd local-password-manager
+cargo build --release
+</div>
+        <p>Make sure the binary is in your PATH or note its location.</p>
+      </div>
+
+      <div class="step">
+        <h2>Step 2: Start the Bridge Server</h2>
+        <p>The bridge server allows the extension to communicate with your local password manager CLI. Start it using:</p>
+        <div class="code-block">
+cd server
+./start_server.sh --cli-path /path/to/local-password-manager
+</div>
+        <p>Or manually with Python:</p>
+        <div class="code-block">
+python3 server/bridge.py --cli-path /path/to/local-password-manager
+</div>
+        <p>The server will start on <code>localhost:8080</code> by default.</p>
+      </div>
+
+      <div class="step">
+        <h2>Step 3: Configure the Extension</h2>
+        <p>Now configure your extension settings:</p>
+        
+        <div class="form-group">
+          <label for="dbPath">Database Path:</label>
+          <input type="text" id="dbPath" placeholder="/path/to/vault.db3" value="./vault.db3">
+          <small>Path where your password vault will be stored</small>
+        </div>
+
+        <div class="form-group">
+          <label for="masterPassword">Master Password:</label>
+          <input type="password" id="masterPassword" placeholder="Enter your master password">
+          <small>This will be used to encrypt your password vault</small>
+        </div>
+
+        <button id="initializeBtn" class="btn">Initialize Password Vault</button>
+        <button id="testConnectionBtn" class="btn btn-secondary">Test Connection</button>
+      </div>
+
+      <div id="status" class="status"></div>
+
+      <div class="step">
+        <h2>Step 4: Start Using the Extension</h2>
+        <p>Once configured, you can:</p>
+        <ul>
+          <li>Click the extension icon to manage passwords</li>
+          <li>Use Ctrl+Shift+L to auto-fill credentials on websites</li>
+          <li>Add new credentials through the extension interface</li>
+          <li>Search and retrieve stored passwords</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Need help? Check the <a href="https://github.com/Lucasldab/local-password-manager" target="_blank">Local Password Manager documentation</a></p>
+    </div>
+  </div>
+
+  <script>
+    class SetupManager {
+      constructor() {
+        this.initializeElements();
+        this.bindEvents();
+      }
+
+      initializeElements() {
+        this.dbPathInput = document.getElementById('dbPath');
+        this.masterPasswordInput = document.getElementById('masterPassword');
+        this.initializeBtn = document.getElementById('initializeBtn');
+        this.testConnectionBtn = document.getElementById('testConnectionBtn');
+        this.status = document.getElementById('status');
+      }
+
+      bindEvents() {
+        this.initializeBtn.addEventListener('click', () => this.handleInitialize());
+        this.testConnectionBtn.addEventListener('click', () => this.handleTestConnection());
+      }
+
+      showStatus(message, type = 'info') {
+        this.status.textContent = message;
+        this.status.className = `status ${type}`;
+        this.status.style.display = 'block';
+      }
+
+      hideStatus() {
+        this.status.style.display = 'none';
+      }
+
+      async handleInitialize() {
+        const dbPath = this.dbPathInput.value.trim();
+        const masterPassword = this.masterPasswordInput.value;
+
+        if (!dbPath) {
+          this.showStatus('Please enter a database path', 'error');
+          return;
+        }
+
+        if (!masterPassword) {
+          this.showStatus('Please enter a master password', 'error');
+          return;
+        }
+
+        this.initializeBtn.disabled = true;
+        this.initializeBtn.textContent = 'Initializing...';
+
+        try {
+          const response = await this.sendMessage('initialize', { dbPath });
+          if (response.success) {
+            this.showStatus('Vault initialized successfully! You can now close this page and use the extension.', 'success');
+          } else {
+            this.showStatus(`Failed to initialize: ${response.error}`, 'error');
+          }
+        } catch (error) {
+          this.showStatus(`Error: ${error.message}`, 'error');
+        } finally {
+          this.initializeBtn.disabled = false;
+          this.initializeBtn.textContent = 'Initialize Password Vault';
+        }
+      }
+
+      async handleTestConnection() {
+        this.testConnectionBtn.disabled = true;
+        this.testConnectionBtn.textContent = 'Testing...';
+
+        try {
+          const response = await fetch('http://localhost:8080/api', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              command: ['list'],
+              dbPath: this.dbPathInput.value.trim()
+            })
+          });
+
+          if (response.ok) {
+            this.showStatus('Connection successful! Bridge server is running.', 'success');
+          } else {
+            this.showStatus('Connection failed. Make sure the bridge server is running.', 'error');
+          }
+        } catch (error) {
+          this.showStatus('Connection failed. Make sure the bridge server is running on localhost:8080', 'error');
+        } finally {
+          this.testConnectionBtn.disabled = false;
+          this.testConnectionBtn.textContent = 'Test Connection';
+        }
+      }
+
+      async sendMessage(action, data = {}) {
+        return new Promise((resolve, reject) => {
+          browser.runtime.sendMessage({ action, ...data })
+            .then(response => {
+              if (response && response.success !== undefined) {
+                resolve(response);
+              } else {
+                reject(new Error('Invalid response format'));
+              }
+            })
+            .catch(reject);
+        });
+      }
+    }
+
+    // Initialize setup when the DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new SetupManager();
+    });
+  </script>
+</body>
+</html>

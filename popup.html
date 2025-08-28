@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Password Manager</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="title">🔐 Local Password Manager</h1>
+      <div class="status-indicator" id="statusIndicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="status-text" id="statusText">Checking...</span>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Setup Section -->
+      <div id="setupSection" class="section hidden">
+        <h2>Initial Setup</h2>
+        <p>Welcome! Let's set up your local password manager connection.</p>
+        
+        <div class="form-group">
+          <label for="dbPath">Database Path:</label>
+          <input type="text" id="dbPath" placeholder="/path/to/vault.db3" value="./vault.db3">
+          <small>Path to your local password manager database</small>
+        </div>
+
+        <div class="form-group">
+          <label for="masterPassword">Master Password:</label>
+          <input type="password" id="masterPassword" placeholder="Enter your master password">
+          <small>Your local password manager master password</small>
+        </div>
+
+        <button id="initializeBtn" class="btn btn-primary">Initialize Connection</button>
+      </div>
+
+      <!-- Main Interface -->
+      <div id="mainSection" class="section hidden">
+        <div class="search-section">
+          <div class="form-group">
+            <label for="serviceSearch">Search Service:</label>
+            <input type="text" id="serviceSearch" placeholder="e.g., github.com">
+            <button id="searchBtn" class="btn btn-secondary">Search</button>
+          </div>
+        </div>
+
+        <div class="results-section">
+          <div id="searchResults" class="results-container">
+            <p class="placeholder-text">Search for a service to see credentials</p>
+          </div>
+        </div>
+
+        <div class="actions-section">
+          <button id="addNewBtn" class="btn btn-primary">Add New Credential</button>
+          <button id="listAllBtn" class="btn btn-secondary">List All Services</button>
+        </div>
+      </div>
+
+      <!-- Add New Credential Modal -->
+      <div id="addModal" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Add New Credential</h3>
+            <button id="closeModal" class="close-btn">&times;</button>
+          </div>
+          
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="newService">Service:</label>
+              <input type="text" id="newService" placeholder="e.g., github.com">
+            </div>
+            
+            <div class="form-group">
+              <label for="newUsername">Username:</label>
+              <input type="text" id="newUsername" placeholder="Enter username">
+            </div>
+            
+            <div class="form-group">
+              <label for="newPassword">Password:</label>
+              <input type="password" id="newPassword" placeholder="Enter password">
+            </div>
+            
+            <div class="form-group">
+              <label for="newNotes">Notes (optional):</label>
+              <textarea id="newNotes" placeholder="Additional notes"></textarea>
+            </div>
+          </div>
+          
+          <div class="modal-footer">
+            <button id="saveCredentialBtn" class="btn btn-primary">Save Credential</button>
+            <button id="cancelAddBtn" class="btn btn-secondary">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error/Info Messages -->
+      <div id="messageContainer" class="message-container hidden">
+        <div id="messageContent" class="message-content">
+          <span id="messageText"></span>
+          <button id="closeMessage" class="close-message">&times;</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <button id="settingsBtn" class="btn btn-link">Settings</button>
+      <button id="refreshBtn" class="btn btn-link">Refresh</button>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
