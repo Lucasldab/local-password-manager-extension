@@ -1,0 +1,35 @@
+{
+  "name": "local-password-manager-extension",
+  "version": "1.0.0",
+  "description": "A Firefox extension that connects your local password manager to the browser",
+  "main": "background.js",
+  "scripts": {
+    "start-server": "cd server && ./start_server.sh",
+    "build": "echo 'No build step required for Firefox extension'",
+    "test": "echo 'No tests specified'",
+    "lint": "echo 'No linter configured'"
+  },
+  "keywords": [
+    "firefox",
+    "extension",
+    "password-manager",
+    "local",
+    "security",
+    "browser-extension"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/local-password-manager-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/local-password-manager-extension/issues"
+  },
+  "homepage": "https://github.com/yourusername/local-password-manager-extension#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
